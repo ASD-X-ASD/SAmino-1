@@ -2,14 +2,133 @@ import time
 import json
 import websocket
 from threading import Thread
+import threading
+import contextlib
+import ssl
+from random import randint
 
 from .lib.objects import Event
 from sys import _getframe as getframe
 # By SirLez
 # Solved By SirLez
 # and Reworked By SirLez lol ._.
+#=====================
 
+class SocketHandler:
+    def __init__(self, client, socket_trace = False, debug = False, security = True):
+        self.socket_url = "wss://ws1.narvii.com"
+        self.client = client
+        self.debug = debug
+        self.active = False
+        self.headers = None
+        self.security = security
+        self.socket = None
+        self.socket_thread = None
+        self.reconnect = True
+        self.socket_stop = False
+        self.socketDelay = 0
+        self.minReconnect = 480
+        self.maxReconnect = 540
 
+        self.socket_handler = threading.Thread(target = self.reconnect_handler)
+        self.socket_handler.start()
+
+        websocket.enableTrace(socket_trace)
+
+    def reconnect_handler(self):
+        # Made by enchart#3410 thx
+        # Fixed by The_Phoenix#3967
+        while True:
+            temp = randint(self.minReconnect, self.maxReconnect)
+            time.sleep(temp)
+
+            if self.active:
+                if self.debug is True:
+                    print(f"[socket][reconnect_handler] Random refresh time = {temp} seconds, Reconnecting Socket")
+                self.close()
+                self.run_amino_socket()
+
+    def on_open(self):
+        if self.debug is True:
+            print("[socket][on_open] Socket Opened")
+
+    def on_close(self):
+        if self.debug is True:
+            print("[socket][on_close] Socket Closed")
+
+        if self.reconnect:
+            if self.debug is True:
+                print("[socket][on_close] reconnect is True, Opening Socket")
+
+    def on_ping(self, data):
+        if self.debug is True:
+            print("[socket][on_ping] Socket Pinged")
+
+        contextlib.suppress(self.socket.sock.pong(data))
+
+    def handle_message(self, data):
+        self.client.handle_socket_message(data)
+        return
+
+    def send(self, data):
+        if self.debug is True:
+            print(f"[socket][send] Sending Data : {data}")
+
+        self.socket.send(data)
+
+    def run_amino_socket(self):
+        if self.debug is True:
+            print(f"[socket][start] Starting Socket")
+
+        self.headers = {
+            "NDCDEVICEID": self.client.device_id,
+            "NDCAUTH": f"sid={self.client.sid}"
+        }
+
+        self.socket = websocket.WebSocketApp(
+            f"{self.socket_url}/?signbody={self.client.device_id}%7C{int(time.time() * 1000)}",
+            on_message = self.handle_message,
+            on_open = self.on_open,
+            on_close = self.on_close,
+            on_ping = self.on_ping,
+            header = self.headers
+        )
+
+        socket_settings = {
+            "ping_interval": 60
+        }
+
+        if not self.security:
+            socket_settings.update({
+                'sslopt': {
+                    "cert_reqs": ssl.CERT_NONE,
+                    "check_hostname": False
+                }
+            })
+
+        self.socket_thread = threading.Thread(target = self.socket.run_forever, kwargs = socket_settings)
+        self.socket_thread.start()
+        self.active = True
+
+        if self.debug is True:
+            print(f"[socket][start] Socket Started")
+
+    def close(self):
+        if self.debug is True:
+            print(f"[socket][close] Closing Socket")
+
+        self.reconnect = False
+        self.active = False
+        self.socket_stop = True
+        try:
+            self.socket.close()
+        except Exception as closeError:
+            if self.debug is True:
+                print(f"[socket][close] Error while closing Socket : {closeError}")
+
+        return
+
+#=====================
 class Socket:
     def __init__(self, client):
         self.socket_url = "wss://ws1.narvii.com"
