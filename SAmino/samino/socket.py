@@ -17,7 +17,6 @@ from sys import _getframe as getframe
 class Socket:
     def __init__(self, client, socket_trace = False, debug = False, security = True):
         self.socket_url = "wss://ws1.narvii.com"
-        websocket.enableTrace(False)
         self.client = client
         self.headers = None
         self.security = security
