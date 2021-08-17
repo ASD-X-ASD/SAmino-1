@@ -32,7 +32,7 @@ class Client(Recall, Socket):
         data = json.dumps({
             "email": email,
             "secret": f"0 {password}",
-            "deviceID": self.deviceId,
+            "deviceID": "2221B00E164AEFA3EDF43EAE05BF12D5BBA90DFF5A955F77C5775DDE815C33F98510E23DC0F8116097",
             "clientType": 100,
             "action": "normal"
         })
