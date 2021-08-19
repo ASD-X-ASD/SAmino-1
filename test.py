@@ -1,4 +1,4 @@
-import samino
+import samino,time
 
 vip = ["f63fc94e-324c-4181-b87f-c2a500a0b23b"] # userIds
 client = samino.Client("22210FBEEEA9D9C77872C1D9E57892F6CE987064D3B9EA712461480F639FFD4AFC4B33191E466EDB9D")
@@ -33,4 +33,15 @@ def on_message(data: samino.lib.Event):
                 local.send_message(chatId, "تم إلغاء متابعة العضو", isWeb=True)
 
 
-client.launch()
+def socketRoot():
+    j = 0
+    while True:
+        if j >= 300: # = 5 min
+            print("updating socket....")
+            client.launch()
+            client.launch().close
+            print("updated socket!")
+            j = 0
+        j += 1
+        time.sleep(1)
+socketRoot()
