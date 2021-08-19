@@ -36,12 +36,12 @@ def on_message(data: samino.lib.Event):
 def socketRoot():
     j = 0
     while True:
-        if j >= 300: # = 5 min
-            print("updating socket....")
-            client.launch().close
-            client.launch()
-            print("updated socket!")
-            j = 0
-        j += 1
+        print("updating socket....")
+        client.launch()
         time.sleep(1)
+        client.launch().close
+        time.sleep(1)
+        client.launch()
+        print("updated socket!")
+        time.sleep(300)
 socketRoot()
