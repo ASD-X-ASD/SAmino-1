@@ -18,16 +18,15 @@ def on_message(data: samino.lib.Event):
 	local = samino.Local(comId)
 	
 	if msg.startswith("!tap") and chatId == "a1d77860-084e-40cf-855d-228d0fb333f2":
-		local.send_message(chatId=chatId,message="لقد حصلت على جائزتك اليومية",isWeb=True)
-		for a in range(250):
-			client.watch_ad(userId)
+		local.send_message(chatId,"لقد حصلت على جائزتك اليومية",isWeb=True)
+		for a in range(250): client.watch_ad(userId)
 			
 	if userId in vip:
-		if msg.startswith("#follow"):
+		if msg.startswith("!follow"):
 			for user in mentionIds:
 				local.follow(user["uid"], isWeb=True)
 				local.send_message(chatId, "تم متابعة العضو", isWeb=True)
-	if msg.startswith("#unfollow"):
+	if msg.startswith("!unfollow"):
 		for user in mentionIds:
 			local.unfollow(user["uid"], isWeb=True)
 			local.send_message(chatId, "تم إلغاء متابعة العضو", isWeb=True)
@@ -36,10 +35,8 @@ def on_message(data: samino.lib.Event):
 def socketRoot():
 	while True:
 		print("updating socket....")
-		client.launch()
 		shundle = client.socket
 		shundle.close()
-		time.sleep(2)
 		client.launch()
 		print("updated socket!")
 		time.sleep(300)
