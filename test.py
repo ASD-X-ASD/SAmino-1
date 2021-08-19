@@ -39,7 +39,8 @@ def socketRoot():
         print("updating socket....")
         client.launch()
         shundle = client.socket
-        client.shundle().close
+        shundle.close()
+        client.launch()
         print("updated socket!")
         time.sleep(300)
 socketRoot()
