@@ -19,7 +19,7 @@ def on_message(data: samino.lib.Event):
 
     if msg.startswith("#tap") and chatId == "a1d77860-084e-40cf-855d-228d0fb333f2" : # every command 2 coin
         client.watch_ad(userId)
-        local.send_message(chatId, f"<${nickname}@$> لقد حصلت على جائزتك اليومية ",replyTo=msgId,isWeb=True)
+        local.send_message(chatId, f"<${nickname}@$> لقد حصلت على جائزتك اليومية ",isWeb=True)
 
     if userId in vip:
         if msg.startswith("#follow"):
