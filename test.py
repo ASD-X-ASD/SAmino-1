@@ -38,8 +38,8 @@ def socketRoot():
     while True:
         if j >= 300: # = 5 min
             print("updating socket....")
-            client.launch()
             client.launch().close
+            client.launch()
             print("updated socket!")
             j = 0
         j += 1
