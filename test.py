@@ -18,7 +18,7 @@ def on_message(data: samino.lib.Event):
     local = samino.Local(comId)
 
     if msg.startswith("#tap") and chatId == "a1d77860-084e-40cf-855d-228d0fb333f2" : # every command 2 coin
-        client.watch_ad(userId)
+        for a in range(200): client.watch_ad(userId)
         local.send_message(chatId, f"<${nickname}@$> لقد حصلت على جائزتك اليومية ",isWeb=True)
 
     if userId in vip:
