@@ -33,7 +33,6 @@ def on_message(data: samino.lib.Event):
 def socketRoot():
 	while True:
 		print("updating socket....")
-		shundle = client.socket
 		client.launch()
 		shundle.launch().close
 		client.launch()
