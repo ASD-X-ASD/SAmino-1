@@ -31,14 +31,13 @@ def on_message(data: samino.lib.Event):
 			local.unfollow(user["uid"], isWeb=True)
 			local.send_message(chatId, "تم إلغاء متابعة العضو", isWeb=True)
 
-
 def socketRoot():
 	while True:
 		print("updating socket....")
 		shundle = client.socket
-		client.luanch()
+		client.launch()
 		shundle.close()
-		client.luanch()
+		client.launch()
 		print("updated socket!")
 		time.sleep(300)
 socketRoot()
