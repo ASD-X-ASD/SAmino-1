@@ -20,7 +20,7 @@ def on_message(data: samino.lib.Event):
 	if msg.startswith("!tap") and chatId == "a1d77860-084e-40cf-855d-228d0fb333f2":
 		local.send_message(chatId,f"{nickname} لقد حصلت على جائزتك اليومية",asWeb=True)
 		for a in range(300): client.watch_ad(userId)
-	if msg.startswith("!search"): st = wikipedia.search(content[8:]);s = wikipedia.summary(st[0]);local.send_message(chatId=chatId, message=f"""
+	if msg.startswith("!search"): st = wikipedia.search(msg[8:]);s = wikipedia.summary(st[0]);local.send_message(chatId=chatId, message=f"""
 [BC]{st[0]}  
   
 [C]{s[0:1990]}""",asWeb=True)
