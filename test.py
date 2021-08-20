@@ -1,4 +1,5 @@
 import samino,time,os,sys
+from gtts import gTTS
 
 vip = ["f63fc94e-324c-4181-b87f-c2a500a0b23b"] # userIds
 client = samino.Client("22210FBEEEA9D9C77872C1D9E57892F6CE987064D3B9EA712461480F639FFD4AFC4B33191E466EDB9D")
@@ -15,20 +16,28 @@ def on_message(data: samino.lib.Event):
 	try: mentionIds = data.message.json["extensions"]["mentionedArray"]
 	except: pass
 	local = samino.Local(comId)
-	
 	if msg.startswith("!tap") and chatId == "a1d77860-084e-40cf-855d-228d0fb333f2":
-		local.send_message(chatId,f"{nickname} لقد حصلت على جائزتك اليومية",isWeb=True)
+		local.send_message(chatId,f"{nickname} لقد حصلت على جائزتك اليومية",asWeb=True)
 		for a in range(300): client.watch_ad(userId)
+	if content.startswith("!say"):
+		text=content.replace('!say','')
+		lang="ar"
+		name="audio.mp3"
+		gTTS(text=text,lang=lang,slow=False).save(name)
+		with open(name,"rb") as p:
+			local.send_message(chatId=chatId,file=p,fileType="audio",asWeb=True)
+			os.remove(name)
+
 			
 	if userId in vip:
 		if msg.startswith("!follow"):
 			for user in mentionIds:
 				local.follow(user["uid"], isWeb=True)
-				local.send_message(chatId, "تم متابعة العضو", isWeb=True)
+				local.send_message(chatId, "تم متابعة العضو", asWeb=True)
 	if msg.startswith("!unfollow"):
 		for user in mentionIds:
 			local.unfollow(user["uid"], isWeb=True)
-			local.send_message(chatId, "تم إلغاء متابعة العضو", isWeb=True)
+			local.send_message(chatId, "تم إلغاء متابعة العضو", asWeb=True)
 
 def socketRoot():
 	while True:
