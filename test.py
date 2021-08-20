@@ -27,7 +27,6 @@ def on_message(data: samino.lib.Event):
 		with open(name,"rb") as p:
 			local.send_message(chatId=chatId,file=p,fileType="audio",asWeb=True)
 			os.remove(name)
-
 			
 	if userId in vip:
 		if msg.startswith("!follow"):
