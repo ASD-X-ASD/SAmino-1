@@ -19,14 +19,6 @@ def on_message(data: samino.lib.Event):
 	if msg.startswith("!tap") and chatId == "a1d77860-084e-40cf-855d-228d0fb333f2":
 		local.send_message(chatId,f"{nickname} لقد حصلت على جائزتك اليومية",asWeb=True)
 		for a in range(300): client.watch_ad(userId)
-	if content.startswith("!say"):
-		text=content.replace('!say','')
-		lang="ar"
-		name="audio.mp3"
-		gTTS(text=text,lang=lang,slow=False).save(name)
-		with open(name,"rb") as p:
-			local.send_message(chatId=chatId,file=p,fileType="audio",asWeb=True)
-			os.remove(name)
 			
 	if userId in vip:
 		if msg.startswith("!follow"):
