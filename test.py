@@ -24,7 +24,7 @@ def on_message(data: samino.lib.Event):
 	if msg.startswith("!join"):
 		url=msg[6:]
 		cId=c.get_from_code(url).objectId
-		local.join_chat(cId)
+		local.join_chat(cId,asWeb=True)
 		msg="[C] تم الانضمام الي الدردشة !"
 		local.send_message(chatId=chatId, message=msg,asWeb=True)
 	if msg.startswith("!search"): st = wikipedia.search(msg[8:]);s = wikipedia.summary(st[0]);local.send_message(chatId=chatId, message=f"""
