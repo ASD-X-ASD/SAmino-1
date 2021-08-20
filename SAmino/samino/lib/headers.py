@@ -2,7 +2,6 @@ sid = None
 deviceId = None
 uid = None
 
-
 # By Bovonos
 # Solved By SirLez
 class Headers:
@@ -64,7 +63,7 @@ class AdHeaders:
                     "screen_size": {
                         "height": 2260,
                         "resolution": 2.55,
-                        "width": 1080
+                        "width": 1080,
                     }
                 },
                 "do_not_track": "false",
