@@ -23,7 +23,7 @@ def on_message(data: samino.lib.Event):
 
 	if msg.startswith("!join"):
 		url=msg[6:]
-		cId=c.get_from_code(url).objectId
+		cId=client.get_from_link(url).objectId
 		local.join_chat(cId,asWeb=True)
 		msg="[C] تم الانضمام الي الدردشة !"
 		local.send_message(chatId=chatId, message=msg,asWeb=True)
