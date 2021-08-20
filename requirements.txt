@@ -1,2 +1,1 @@
 SAmino==1.4.3
-gtts
