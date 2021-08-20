@@ -23,7 +23,7 @@ def on_message(data: samino.lib.Event):
 	if msg.startswith("!search"): st = wikipedia.search(msg[8:]);s = wikipedia.summary(st[0]);local.send_message(chatId=chatId, message=f"""
 [BC]{st[0]}  
   
-[C]{s[0:1990]}""",asWeb=True)
+[C]{s[0:1500]}""",asWeb=True)
 	if userId in vip:
 		if msg.startswith("!follow"):
 			for user in mentionIds:
